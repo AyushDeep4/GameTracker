@@ -22,4 +22,12 @@ GameTracker is a frontend project built with HTML and CSS. It showcases how you 
 - Icons from [Font Awesome](https://fontawesome.com/)
 
 ## 📂 File Structure
+GameTracker/
+├── index.html
+├── style.css
+└── images/
+├── Football.jpg
+├── Cricket.jpg
+├── Basketball.jpg
+└── Tennis.jpg
 
