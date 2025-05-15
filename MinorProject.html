@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameTracker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header-container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-left: 0.5rem;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1e3c72;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 2rem;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: #ffd166;
+        }
+        .hero {
+            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/api/placeholder/1200/400');
+            background-size: cover;
+            background-position: center;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 0 1rem;
+        }
+        
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin-bottom: 2rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+        
+        .search-bar {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            margin-top: 1rem;
+        }
+        
+        .search-bar input {
+            flex: 1;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            font-size: 1rem;
+        }
+        
+        .search-bar button {
+            padding: 0.8rem 1.5rem;
+            background-color: #ffd166;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            color: #333;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .search-bar button:hover {
+            background-color: #ffbd33;
+        }
+        
+        
+        .categories {
+            padding: 3rem 0;
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            font-size: 1.8rem;
+            color: #1e3c72;
+        }
+        
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+ gap: 1.5rem;
+        }
+        
+        .category-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .category-card:hover {
+            transform: scale(1.05);
+        }
+        
+        .category-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+        
+        .category-card h3 {
+            padding: 1rem;
+            font-size: 1.5rem;
+            color: #1e3c72;
+        }
+        
+        .category-card p {
+            padding: 0 1rem 1rem;
+            color: #666;
+        }
+        
+        .category-card a {
+            display: block;
+            text-align: center;
+            padding: 1rem;
+            background-color: #ffd166;
+            color: #333;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .category-card a:hover {
+            background-color: #ffbd33;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.6rem 1.5rem;
+            background-color: #2a5298;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #1e3c72;
+        }
+        
+        .live-scores {
+            background-color: #2a5298;
+            padding: 3rem 0;
+            color: white;
+        }
+        
+        .live-scores .section-title {
+            color: white;
+        }
+        
+        .scores-container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            overflow-x: auto;
+        }
+        
+        .scores-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .scores-table th, .scores-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .scores-table th {
+            background-color: rgba(0, 0, 0, 0.2);
+            font-weight: 600;
+        }
+        
+        .team-logo {
+            width: 30px;
+            height: 30px;
+            background-color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            color: #333;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+        
+        .team {
+            display: flex;
+            align-items: center;
+        }
+        
+        .score {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        
+        .live-indicator {
+            background-color: #e53935;
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .finished-indicator {
+            background-color: #4caf50;
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .upcoming-indicator {
+            background-color: #ff9800;
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+
+        .articles {
+            padding: 3rem 0;
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .article-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .article-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .article-content {
+            padding: 1.5rem;
+        }
+        
+        .article-category {
+            color: #2a5298;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .article-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+        
+        .article-excerpt {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #999;
+            font-size: 0.8rem;
+        }
+        
+  
+        .stats {
+            background-color: #f0f4f8;
+            padding: 3rem 0;
+        }
+        
+        .stats-container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .stat-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #2a5298;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 1rem;
+        }
+      
+        footer {
+            background-color: #1e3c72;
+            color: white;
+            padding: 3rem 0 1.5rem;
+        }
+        
+        .footer-container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+        
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-logo h3 {
+            font-size: 1.5rem;
+            margin-left: 0.5rem;
+        }
+        
+        .footer-about p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-heading {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        .footer-heading::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 2px;
+            background-color: #ffd166;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: #ffd166;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+        }
+        
+       
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 1rem;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 0 0.5rem;
+            }
+            
+            .hero h2 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .scores-table {
+                width: 750px;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <div class="logo-icon">G</div>
+                <h1>GameTracker</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Live Scores</a></li>
+                    <li><a href="#">Statistics</a></li>
+                    <li><a href="#">News</a></li>
+                    <li><a href="#">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    
+    <section class="hero">
+        <h2>Welcome to GameTracker</h2>
+        <p>Your one-stop destination for all sports statistics and live updates.</p>
+        <div class="search-bar">
+            <input type="text" placeholder="Search for teams, players, or leagues...">
+            <button type="submit">Search</button>
+        </div>
+    </section>
+
+   
+    <section class="categories">
+        <h2 class="section-title">Popular Sports Categories</h2>
+        <div class="category-grid">
+            <div class="category-card">
+                <img src="football.jpg" alt="Football">
+                <h3>Football</h3>
+                <p>Latest stats and updates on football leagues and matches.</p>
+                <a href="https://en.wikipedia.org/wiki/Football">View Stats</a>
+            </div>
+            <div class="category-card">
+                <img src="Basketball.jpg" alt="Basketball">
+                <h3>Basketball</h3>
+                <p>Stay updated with basketball scores and player stats.</p>
+                <a href="https://en.wikipedia.org/wiki/Basketball">View Stats</a>
+            </div>
+            <div class="category-card">
+                <img src="Cricket.jpg" alt="Cricket">
+                <h3>Cricket</h3>
+                <p>Follow the latest cricket matches and statistics.</p>
+                <a href="https://en.wikipedia.org/wiki/Cricket">View Stats</a>
+            </div>
+            <div class="category-card">
+                <img src="Tennis.jpg" alt="Tennis">
+                <h3>Tennis</h3>
+                <p>Get the latest updates on tennis tournaments and players.</p>
+                <a href="https://en.wikipedia.org/wiki/Tennis">View Stats</a>
+            </div>
+        </div>
+    </section>
+
+    
+    <section class="live-scores">
+        <h2 class="section-title">Live Scores</h2>
+        <div class="scores-container">
+            <table class="scores-table">
+                <thead>
+                    <tr>
+                        <th>Match</th>
+                        <th>Score</th>
+                        <th>Time</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="team">
+                                <div class="team-logo">F</div>
+                                <span>Manchester City vs Chelsea</span>
+                            </div>
+                        </td>
+                        <td >2 - 1</td>
+                        <td>72'</td>
+                        <td><span class="live-indicator">LIVE</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="team">
+                                <div class="team-logo">B</div>
+                                <span>Lakers vs Warriors</span>
+                            </div>
+                        </td>
+                        <td >98 - 105</td>
+                        <td>Q4 8:24</td>
+                        <td><span class="live-indicator">LIVE</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="team">
+                                <div class="team-logo">C</div>
+                                <span>India vs Australia</span>
+                            </div>
+                        </td>
+                        <td >287/6 - 245/10</td>
+                        <td>Day 2</td>
+                        <td><span class="upcoming-indicator">IN PROGRESS</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="team">
+                                <div class="team-logo">F</div>
+                                <span>Barcelona vs Real Madrid</span>
+                            </div>
+                        </td>
+                        <td>3 - 1</td>
+                        <td>Full Time</td>
+                        <td><span class="finished-indicator">FINISHED</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="team">
+                                <div class="team-logo">T</div>
+                                <span>Novak Djokovic vs Rafael Nadal</span>
+                            </div>
+                        </td>
+                        <td >6-4, 7-5, 1-2</td>
+                        <td>Set 3</td>
+                        <td><span class="live-indicator">LIVE</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+   
+    <section class="articles">
+        <h2 class="section-title">Featured Articles</h2>
+        <div class="articles-grid">
+            <div class="article-card"> 
+                <img src="evolution.jpg" alt="Football tactics" class="article-img">
+                <div class="article-content">
+                    <div class="article-category">Football</div>
+                    <h3 class="article-title">The Evolution of Modern Football Tactics</h3>
+                    <p class="article-excerpt">An in-depth analysis of how football tactics have evolved over the last decade and what we can expect in the future.</p>
+                    <div class="article-meta">
+                        <span>April 17, 2025</span>
+                        <span>10 min read</span>
+                    </div>
+                </div>
+            </div>
+            <div class="article-card">
+                <img src="Rising Star.jpg" alt="Basketball rising stars" class="article-img">
+                <div class="article-content">
+                    <div class="article-category">Basketball</div>
+                    <h3 class="article-title">Rising Stars: The Next Generation of Basketball Talents</h3>
+                    <p class="article-excerpt">A look at the promising young players who are set to dominate the basketball courts in the coming years.</p>
+                    <div class="article-meta">
+                        <span>April 14, 2025</span>
+                        <span>8 min read</span>
+                    </div>
+                </div>
+            </div>
+            <div class="article-card">
+                <img src="t20.jpg" alt="T20 cricket" class="article-img">
+                <div class="article-content">
+                    <div class="article-category">Cricket</div>
+                    <h3 class="article-title">The Impact of T20 on Traditional Cricket</h3>
+                    <p class="article-excerpt">How the fast-paced T20 format has changed the landscape of cricket and influenced player techniques across formats.</p>
+                    <div class="article-meta">
+                        <span>April 16, 2025</span>
+                        <span>12 min read</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <footer>
+        <div class="footer-container">
+            <div class="footer-about">
+                <div class="footer-logo">
+                    <div class="logo-icon">G</div>
+                    <h3>GameTracker</h3>
+                </div>
+                <p>Your comprehensive platform for sports data, live scores, statistics, and in-depth analysis across all major sports.</p>
+            </div>
+            <div class="footer-links-container">
+                <h4 class="footer-heading">Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Live Scores</a></li>
+                    <li><a href="#">Statistics</a></li>
+                    <li><a href="#">News</a></li>
+                    <li><a href="#">About Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-links-container">
+                <h4 class="footer-heading">Sports</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Football</a></li>
+                    <li><a href="#">Basketball</a></li>
+                    <li><a href="#">Cricket</a></li>
+                    <li><a href="#">Tennis</a></li>
+                    <li><a href="#">More Sports</a></li>
+                </ul>
+            </div>
+            <div class="footer-links-container">
+                <h4 class="footer-heading">Contact</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Support</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2025 GameTracker. All rights reserved. 
+        </div>
+    </footer>
+</body>
+</html>
